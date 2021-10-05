@@ -6,9 +6,58 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-module.exports = (db) => {
-    app.get('/health', (req, res) => res.send('Healthy'));
+// uncomment this block code to allow send request on API Doc site if the server at localhost
+/*
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    if (req.headers.origin) {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+    }
+    if (req.method === 'OPTIONS') {
+		res.header("Access-Control-Allow-Headers",
+			"Origin, X-Requeted-With, Content-Type, Accept, Authorization, RBR");
+        return res.status(200).json({});
+    }
+    next();
+ });
+*/
 
+module.exports = (db) => {
+    /**
+     * @api {get} /health /health
+	 * @apiDescription Test health of server
+     * @apiGroup Maintenance
+     * @apiName getHealth
+     *
+     * @apiSuccess {String} none The server will response `Healthy` string and response code `200`
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *     Healthy
+     */
+    app.get('/health', (req, res) => sendResponse(res, 'Healthy'));
+
+    /**
+     * @api {post} /rides /ride - post
+	 * @apiDescription Submit new rides consist of origin, destination, rider and driver detail
+     * @apiGroup Rides
+     * @apiName postRide
+     *
+     * @apiBody {Number} start_lat Origin latitude.
+     * @apiBody {Number} start_long Origin longitude.
+     * @apiBody {Number} end_lat Destination latitude.
+     * @apiBody {Number} end_long Destination longitude.
+     * @apiBody {String} rider_name Rider's name.
+     * @apiBody {String} driver_name Driver's name.
+     * @apiBody {String} driver_vehicle Driver's vehicle.
+     *
+     * @apiSuccess {Number} start_lat Origin latitude.
+     * @apiSuccess {Number} start_long Origin longitude.
+     * @apiSuccess {Number} end_lat Destination latitude.
+     * @apiSuccess {Number} end_long Destination longitude.
+     * @apiSuccess {String} rider_name Rider's name.
+     * @apiSuccess {String} driver_name Driver's name.
+     * @apiSuccess {String} driver_vehicle Driver's vehicle.
+     */
     app.post('/rides', jsonParser, (req, res) => {
         const startLatitude = Number(req.body.start_lat);
         const startLongitude = Number(req.body.start_long);
@@ -42,14 +91,14 @@ module.exports = (db) => {
         if (typeof driverName !== 'string' || driverName.length < 1) {
             return res.send({
                 error_code: 'VALIDATION_ERROR',
-                message: 'Rider name must be a non empty string'
+                message: 'Driver name must be a non empty string'
             });
         }
 
         if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
             return res.send({
                 error_code: 'VALIDATION_ERROR',
-                message: 'Rider name must be a non empty string'
+                message: 'Vehicle must be a non empty string'
             });
         }
 
@@ -76,6 +125,20 @@ module.exports = (db) => {
         });
     });
 
+    /**
+     * @api {get} /rides /rides - get
+	 * @apiDescription Get all ride records
+     * @apiGroup Rides
+     * @apiName getRides
+     *
+     * @apiSuccess {Number} start_lat Origin latitude.
+     * @apiSuccess {Number} start_long Origin longitude.
+     * @apiSuccess {Number} end_lat Destination latitude.
+     * @apiSuccess {Number} end_long Destination longitude.
+     * @apiSuccess {String} rider_name Rider's name.
+     * @apiSuccess {String} driver_name Driver's name.
+     * @apiSuccess {String} driver_vehicle Driver's vehicle.
+     */
     app.get('/rides', (req, res) => {
         db.all('SELECT * FROM Rides', function (err, rows) {
             if (err) {
@@ -96,6 +159,22 @@ module.exports = (db) => {
         });
     });
 
+    /**
+     * @api {get} /rides/:id /rides/:id - get
+	 * @apiDescription Get ride detail by rideID
+     * @apiGroup Rides
+     * @apiName getRideById
+     *
+     * @apiParam {Number} id rideID.
+     *
+     * @apiSuccess {Number} start_lat Origin latitude.
+     * @apiSuccess {Number} start_long Origin longitude.
+     * @apiSuccess {Number} end_lat Destination latitude.
+     * @apiSuccess {Number} end_long Destination longitude.
+     * @apiSuccess {String} rider_name Rider's name.
+     * @apiSuccess {String} driver_name Driver's name.
+     * @apiSuccess {String} driver_vehicle Driver's vehicle.
+     */
     app.get('/rides/:id', (req, res) => {
         db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
             if (err) {
