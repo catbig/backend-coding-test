@@ -1,64 +1,79 @@
-Prerequisite:
-=============
+# Detail Answer
+## Prerequisite
 
 1. Create a new repository in your own github profile named `backend-coding-test` 
+
 https://github.com/catbig/backend-coding-test
 
 2. Change default branch from `main` to `master`
 3. Initial commit the contents of this folder
 4. Install `node (>8.6 and <= 10)` and `npm`
-You can download the installer from below link
+
+You can download the installer from below link:
+
 https://nodejs.org/download/release/v10.24.1/
 
 5. Install the package
+
 Run `npm install`
 
 6. Testing the server
+
 Run `npm test`
 
 sample output:
-# npm test
+```
+$ npm test
 > backend-coding-test@1.0.0 test ~\backend-coding-test
 > mocha tests
   API tests
     GET /health
       √ should return health
   1 passing (42ms)
+```
 
 7. Run the server
+
 Run `npm start`
 
-Task:
-=====
+## Task
 
-1. Documentation
-++++++++++++++++
+### 1. Documentation
 
 We will use apidoc to build API documentation in web format.
+
 https://www.npmjs.com/package/apidoc
 
 a. Install apidoc package
+
 Run `npm install -g apidoc`
 
 b. Configure the apidoc in `package.json`
+
 Add configuration under the `"apidoc": { }` parameter.
-`  "apidoc": {
+```
+  "apidoc": {
     "name": "Backend Test Documentation",
     "description": "Backend Test Documentation",
     "title": "Backend Test Documentation"
-  }`
+  }
+```
 
 c. Add block of API doc in `src/app.js`
+
 How to: https://apidocjs.com
 
 d. Generate API doc in web format
-apidoc -i src/ -o src/ --single
+
+`apidoc -i src/ -o src/ --single`
 
 e. Publish api doc `/developer`
+
 Add below code in `src/app.js`
-`    app.get('/developer', (req, res) => {
+```
+    app.get('/developer', (req, res) => {
 		res.sendFile(__dirname+'/index.html');
-	});`
+	});
+```
 
 f. Restart the server
-
