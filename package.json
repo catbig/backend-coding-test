@@ -23,5 +23,10 @@
   "devDependencies": {
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
+  },
+  "apidoc": {
+    "name": "Backend Test Documentation",
+    "description": "Backend Test Documentation",
+    "title": "Backend API Doc"
   }
 }
