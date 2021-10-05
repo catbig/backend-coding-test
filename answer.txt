@@ -45,30 +45,20 @@ Add configuration under the `"apidoc": { }` parameter.
 `  "apidoc": {
     "name": "Backend Test Documentation",
     "description": "Backend Test Documentation",
-    "title": "Backend Test Documentation",
-    "sampleUrl": "http://localhost:8010"
+    "title": "Backend Test Documentation"
   }`
 
 c. Add block of API doc in `src/app.js`
 How to: https://apidocjs.com
 
 d. Generate API doc in web format
-apidoc -i src/ -o doc/ --single
+apidoc -i src/ -o src/ --single
 
-e. Optional step if you run the server at localhost
-   i. Add middleware code in `src/app.js`
-   
-   `app.use((req, res, next) => {
-       res.header("Access-Control-Allow-Origin", "*");
-       if (req.headers.origin) {
-           res.header('Access-Control-Allow-Origin', req.headers.origin);
-       }
-       if (req.method === 'OPTIONS') {
-   		res.header("Access-Control-Allow-Headers",
-   			"Origin, X-Requeted-With, Content-Type, Accept, Authorization, RBR");
-           return res.status(200).json({});
-       }
-       next();
-    });`
-   ii. Restart the server 
+e. Publish api doc `/developer`
+Add below code in `src/app.js`
+`    app.get('/developer', (req, res) => {
+		res.sendFile(__dirname+'/index.html');
+	});`
+
+f. Restart the server
 

@@ -6,23 +6,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-// uncomment this block code to allow send request on API Doc site if the server at localhost
-/*
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    if (req.headers.origin) {
-        res.header('Access-Control-Allow-Origin', req.headers.origin);
-    }
-    if (req.method === 'OPTIONS') {
-		res.header("Access-Control-Allow-Headers",
-			"Origin, X-Requeted-With, Content-Type, Accept, Authorization, RBR");
-        return res.status(200).json({});
-    }
-    next();
- });
-*/
-
 module.exports = (db) => {
+	
+	/**
+	 * Publish API doc
+	 */
+    app.get('/developer', (req, res) => {
+		res.sendFile(__dirname+'/index.html');
+	});
+
     /**
      * @api {get} /health /health
 	 * @apiDescription Test health of server
@@ -34,7 +26,7 @@ module.exports = (db) => {
      *     HTTP/1.1 200 OK
      *     Healthy
      */
-    app.get('/health', (req, res) => sendResponse(res, 'Healthy'));
+    app.get('/health', (req, res) => res.send('Healthy'));
 
     /**
      * @api {post} /rides /ride - post

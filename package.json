@@ -27,7 +27,6 @@
   "apidoc": {
     "name": "Backend Test Documentation",
     "description": "Backend Test Documentation",
-    "title": "Backend API Doc",
-    "sampleUrl": "http://localhost:8010"
+    "title": "Backend API Doc"
   }
 }
