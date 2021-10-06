@@ -4,7 +4,7 @@
 1. Create a new repository in your own github profile named `backend-coding-test`  
 https://github.com/catbig/backend-coding-test
 
-2. Change default branch from `main` to `master`
+2. Rename `main` branch to `master`
 3. Initial commit the contents of this folder
 4. Install `node (>8.6 and <= 10)` and `npm`  
 You can download the installer from below link:  
@@ -175,3 +175,5 @@ Run `npm install winston`
 2. Create file `log.js` as logger  
 Define the logger as global variable so can be use everywhere  
 refer [log.js](log.js)
+
+3. Implement logging in app.js
