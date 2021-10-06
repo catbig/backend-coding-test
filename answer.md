@@ -57,7 +57,7 @@ Run bellow command everytime you have update the block of API doc in your code f
 `apidoc -i src/ -o src/ --single`
 
 5. Publish api doc as `/developer`  
-Add below code in `src/app.js`
+Add below code in `src/app.js`  
 ```
     app.get('/developer', (req, res) => {
 		res.sendFile(__dirname+'/index.html');
@@ -77,7 +77,7 @@ Run `npm i -g eslint --save-dev`
 
 2. Setup a configuration file  
 Run `./node_modules/.bin/eslint --init`  
-sample output:
+sample output:  
 ```
 √ How would you like to use ESLint? · problems
 √ What type of modules does your project use? · commonjs
@@ -85,15 +85,15 @@ sample output:
 √ Does your project use TypeScript? · No / Yes
 √ Where does your code run? · browser, node
 √ What format do you want your config file to be in? · JSON
-```
-You can modify the configuration file directly also.  
-refer [.eslintrc.json](.eslintrc.json)
+```  
+&ensp;You can modify the configuration file directly also.  
+&ensp;refer [.eslintrc.json](.eslintrc.json)
 
 3. Install `prettier` plugin  
 Run `npm install prettier eslint-plugin-prettier`
 
 4. Extend eslint with prettier plugin  
-Add below code in `package.json`
+Add below code in `package.json`  
 ```
     "extends": [
 		"plugin:prettier/recommended"
@@ -104,13 +104,12 @@ Add below code in `package.json`
     "rules": {
 		"prettier/prettier": "error"
     }
-```
-
-refer [package.json](package.json)
+```  
+&ensp;refer [package.json](package.json)
 
 5. Configure the prettier  
 Create file `.prettierrc.json`  
-sample configuration:
+sample configuration:  
 ```
 {
   "tabWidth": 2,
@@ -120,20 +119,20 @@ sample configuration:
   "bracketSpacing": true,
   "arrowParens": "always"
 }
-```
-refer [.prettierrc.json](.prettierrc.json)
+```  
+&ensp;refer [.prettierrc.json](.prettierrc.json)
 
 6. Linting code manually  
 Run `eslint src/**js`
 
 7. Connect eslint to `npm test` as `pretest`  
-Add below code in `package.json`
+Add below code in `package.json`  
 ```
   "scripts": {
 	"pretest": "eslint src/**js"
   },
-```
-refer [package.json](package.json)
+```  
+&ensp;refer [package.json](package.json)
 
 8. Rerun test  
 Run `npm test`
@@ -144,7 +143,7 @@ Run `npm test`
 Run `npm i -D nyc`
 
 2. Configure `nyc`  
-Add `nyc` in `test` script inside `package.json` file.
+Add `nyc` in `test` script inside `package.json` file.  
 ```
   "scripts": {
     "test": "nyc mocha tests"
@@ -162,17 +161,17 @@ But don't worry, you can still force a push by telling `git` to skip the `pre-pu
 Run `npm install --save-dev pre-push`
 
 2. Configure `pre-push`  
-Add a `pre-push` array to your `package.json` that specifies which `scripts` you want to have ran.
+Add a `pre-push` array to your `package.json` that specifies which `scripts` you want to have ran.  
 ```
   "pre-push": [
     "test"
   ],
 ```
 
-### d. Logging
+#### d. Logging
 1. Install `winston` as logger  
 Run `npm install winston`
 
 2. Create file `log.js` as logger  
-Define the logger as global variable  
+Define the logger as global variable so can be use everywhere  
 refer [log.js](log.js)
