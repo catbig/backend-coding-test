@@ -21,6 +21,15 @@ describe('API tests', function () {
     });
   });
 
+  describe('GET /developer', function () {
+    it('should return developer portal', function (done) {
+      request(app)
+        .get('/developer')
+        .expect('Content-Type', /text/)
+        .expect(200, done);
+    });
+  });
+
   describe('GET /health', function () {
     it('should return health', function (done) {
       request(app)
