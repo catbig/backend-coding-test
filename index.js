@@ -15,9 +15,11 @@ const buildSchemas = require('./src/schemas');
 require('./src/log.js').initLogger();
 
 db.serialize(() => {
-    buildSchemas(db);
+  buildSchemas(db);
 
-    const app = require('./src/app')(db);
+  const app = require('./src/app')(db);
 
-    app.listen(port, () => console.log(`App started and listening on port ${port}`));
+  app.listen(port, () =>
+    console.log(`App started and listening on port ${port}`)
+  );
 });

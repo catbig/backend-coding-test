@@ -8,6 +8,7 @@
     "extends": [
         "eslint:recommended",
 		"plugin:prettier/recommended",
+		"plugin:mocha/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -16,11 +17,16 @@
     },
     "plugins": [
         "@typescript-eslint",
+		"mocha",
 		"prettier"
     ],
+	"globals": {
+        "log": true
+    },
     "rules": {
 		"semi": ["error", "always"],
 		"prettier/prettier": "error",
-		"@typescript-eslint/no-var-requires": 0
+		"@typescript-eslint/no-var-requires": 0,
+		"@typescript-eslint/no-unused-vars": 0
     }
 }

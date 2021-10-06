@@ -6,7 +6,7 @@ const { createLogger, format, transports } = winston;
 function initLogger() {
   var log = createLogger({
     level: 'info',
-	format: format.combine(
+    format: format.combine(
       format.timestamp({
         format: 'YYYY-MM-DD HH:mm:ss'
       }),
@@ -22,21 +22,10 @@ function initLogger() {
       //
       new transports.File({ filename: './log/error.log', level: 'error' }),
       new transports.File({ filename: './log/warn.log', level: 'warn' }),
-      new transports.File({ filename: './log/info.log', level: 'info' }),
-    ],
+      new transports.File({ filename: './log/info.log', level: 'info' })
+    ]
   });
   global.log = log;
 }
 
 exports.initLogger = initLogger;
-
- 
-/*
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (process.env.NODE_ENV !== 'production') {
-  log.add(new winston.transports.Console({
-    format: winston.format.simple(),
-  }));
-}*/

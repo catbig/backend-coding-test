@@ -26,17 +26,18 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "mocha": "^6.1.4",
     "eslint": "^7.32.0",
-    "typescript": "^4.4.3",
-    "prettier": "^2.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-mocha": "^9.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^6.1.4",
     "nyc": "^15.1.0",
     "pre-push": "^0.1.1",
-    "supertest": "^4.0.2"
+    "prettier": "^2.4.1",
+    "supertest": "^4.0.2",
+    "typescript": "^4.4.3"
   },
   "apidoc": {
     "name": "Backend Test Documentation",

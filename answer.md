@@ -89,23 +89,34 @@ sample output:
 &ensp;You can modify the configuration file directly also.  
 &ensp;refer [.eslintrc.json](.eslintrc.json)
 
-3. Install `prettier` plugin  
-Run `npm install prettier eslint-plugin-prettier`
+3. Install `mocha` plugin  
+Run `npm install prettier eslint-plugin-mocha --save-dev`
 
-4. Extend eslint with prettier plugin  
-Add below code in `package.json`  
+3. Install `prettier` plugin  
+Run `npm install prettier eslint-plugin-prettier --save-dev`
+
+4. Extend eslint with plugin  
+Add below code in `.eslintrc.json`  
 ```
     "extends": [
-		"plugin:prettier/recommended"
+        "eslint:recommended",
+		"plugin:prettier/recommended",
+		"plugin:mocha/recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
     "plugins": [
+        "@typescript-eslint",
+		"mocha",
 		"prettier"
     ],
     "rules": {
-		"prettier/prettier": "error"
+		"semi": ["error", "always"],
+		"prettier/prettier": "error",
+		"@typescript-eslint/no-var-requires": 0,
+		"@typescript-eslint/no-unused-vars": 0
     }
 ```  
-&ensp;refer [package.json](package.json)
+&ensp;refer [.eslintrc.json](.eslintrc.json)
 
 5. Configure the prettier  
 Create file `.prettierrc.json`  
@@ -123,18 +134,21 @@ sample configuration:
 &ensp;refer [.prettierrc.json](.prettierrc.json)
 
 6. Linting code manually  
-Run `eslint src/**js`
+Run `eslint **/**js`
 
 7. Connect eslint to `npm test` as `pretest`  
 Add below code in `package.json`  
 ```
   "scripts": {
-	"pretest": "eslint src/**js"
+	"pretest": "eslint **/**js"
   },
 ```  
 &ensp;refer [package.json](package.json)
 
-8. Rerun test  
+8. Linter fixing  
+Run `eslint **/**js  --fix`
+
+9. Rerun test  
 Run `npm test`
 
 #### b. Code Coverage
@@ -176,4 +190,4 @@ Run `npm install winston`
 Define the logger as global variable so can be use everywhere  
 refer [log.js](log.js)
 
-3. Implement logging in app.js
+3. Implement logging in `app.js`
