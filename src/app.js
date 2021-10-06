@@ -29,7 +29,7 @@ module.exports = (db) => {
     app.get('/health', (req, res) => res.send('Healthy'));
 
     /**
-     * @api {post} /rides /ride - post
+     * @api {post} /rides /ride - postRide
 	 * @apiDescription Submit new rides consist of origin, destination, rider and driver detail
      * @apiGroup Rides
      * @apiName postRide
@@ -58,8 +58,10 @@ module.exports = (db) => {
         const riderName = req.body.rider_name;
         const driverName = req.body.driver_name;
         const driverVehicle = req.body.driver_vehicle;
+		const logPrefix = '[app.postRide] ';
 
         if (startLatitude < -90 || startLatitude > 90 || startLongitude < -180 || startLongitude > 180) {
+			log.warn(logPrefix + 'start latitude invalid: ' + startLatitude);
             return res.send({
                 error_code: 'VALIDATION_ERROR',
                 message: 'Start latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively'
@@ -67,6 +69,7 @@ module.exports = (db) => {
         }
 
         if (endLatitude < -90 || endLatitude > 90 || endLongitude < -180 || endLongitude > 180) {
+			log.warn(logPrefix + 'end latitude invalid: ' + endLatitude);
             return res.send({
                 error_code: 'VALIDATION_ERROR',
                 message: 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively'
@@ -74,6 +77,7 @@ module.exports = (db) => {
         }
 
         if (typeof riderName !== 'string' || riderName.length < 1) {
+			log.warn(logPrefix + 'riderName invalid: ' + riderName);
             return res.send({
                 error_code: 'VALIDATION_ERROR',
                 message: 'Rider name must be a non empty string'
@@ -81,6 +85,7 @@ module.exports = (db) => {
         }
 
         if (typeof driverName !== 'string' || driverName.length < 1) {
+			log.warn(logPrefix + 'driverName invalid: ' + driverName);
             return res.send({
                 error_code: 'VALIDATION_ERROR',
                 message: 'Driver name must be a non empty string'
@@ -88,6 +93,7 @@ module.exports = (db) => {
         }
 
         if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
+			log.warn(logPrefix + 'driverVehicle invalid: ' + driverVehicle);
             return res.send({
                 error_code: 'VALIDATION_ERROR',
                 message: 'Vehicle must be a non empty string'
@@ -95,9 +101,10 @@ module.exports = (db) => {
         }
 
         var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
-        
+
         const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
             if (err) {
+				log.error(logPrefix + 'insert failed: ' + values);
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -106,6 +113,7 @@ module.exports = (db) => {
 
             db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
                 if (err) {
+					log.error(logPrefix + 'failure on select record by id: ' + this.lastID);
                     return res.send({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error'
@@ -118,7 +126,7 @@ module.exports = (db) => {
     });
 
     /**
-     * @api {get} /rides /rides - get
+     * @api {get} /rides /rides - getRides
 	 * @apiDescription Get all ride records
      * @apiGroup Rides
      * @apiName getRides
@@ -132,8 +140,10 @@ module.exports = (db) => {
      * @apiSuccess {String} driver_vehicle Driver's vehicle.
      */
     app.get('/rides', (req, res) => {
+		const logPrefix = '[app.getRides] ';
         db.all('SELECT * FROM Rides', function (err, rows) {
             if (err) {
+				log.error(logPrefix + 'select record failed');
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -141,6 +151,7 @@ module.exports = (db) => {
             }
 
             if (rows.length === 0) {
+				log.warn(logPrefix + 'ride not found');
                 return res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
                     message: 'Could not find any rides'
@@ -152,7 +163,7 @@ module.exports = (db) => {
     });
 
     /**
-     * @api {get} /rides/:id /rides/:id - get
+     * @api {get} /rides/:id /rides/:id - getRideById
 	 * @apiDescription Get ride detail by rideID
      * @apiGroup Rides
      * @apiName getRideById
@@ -168,8 +179,11 @@ module.exports = (db) => {
      * @apiSuccess {String} driver_vehicle Driver's vehicle.
      */
     app.get('/rides/:id', (req, res) => {
+		const logPrefix = '[app.getRideById] ';
+		var id = req.params.id;
         db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
             if (err) {
+				log.error(logPrefix + 'failure on select record by id: ' + id);
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -177,6 +191,7 @@ module.exports = (db) => {
             }
 
             if (rows.length === 0) {
+				log.warn(logPrefix + 'record not found for id: ' + id);
                 return res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
                     message: 'Could not find any rides'
