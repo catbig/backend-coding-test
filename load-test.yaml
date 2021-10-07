@@ -1,0 +1,20 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+config:
+  target: "http://localhost:8010"
+  phases:
+    - duration: 300
+      arrivalRate: 5
+      rampTo: 500
+      name: "A user fetches people"
+  ws:
+    # Set WebSocket subprotocols:
+    subprotocols:
+      - json
+
+scenarios:
+  - flow:
+      - get:
+          url: "/rides/1/2"

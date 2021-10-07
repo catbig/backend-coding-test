@@ -222,7 +222,8 @@ module.exports = (db) => {
     const logPrefix = '[app.getRideById] ';
     var id = req.params.id;
     await db.all(
-      `SELECT * FROM Rides WHERE rideID = ?`, id,
+      `SELECT * FROM Rides WHERE rideID = ?`,
+      id,
       function (err, rows) {
         if (err) {
           //logger.error(logPrefix + 'failure on select record by id: ' + err);
