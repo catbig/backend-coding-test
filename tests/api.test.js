@@ -17,6 +17,27 @@ describe('API tests', function () {
 
       buildSchemas(db);
 
+      // prettier-ignore
+      let values = [
+        1, 0, 0, 0, 'rider1',  'driver1',  'vehicle1', 
+		2, 0, 0, 0, 'rider2',  'driver2',  'vehicle2', 
+		3, 0, 0, 0, 'rider3',  'driver3',  'vehicle3', 
+		4, 0, 0, 0, 'rider4',  'driver4',  'vehicle4', 
+		5, 0, 0, 0, 'rider5',  'driver5',  'vehicle3', 
+		6, 0, 0, 0, 'rider6',  'driver6',  'vehicle6', 
+		7, 0, 0, 0, 'rider7',  'driver7',  'vehicle3', 
+		8, 0, 0, 0, 'rider8',  'driver8',  'vehicle8', 
+		9, 0, 0, 0, 'rider9',  'driver9',  'vehicle3', 
+	   10, 0, 0, 0, 'rider10', 'driver10', 'vehicle10'
+      ];
+
+      let sql =
+        'INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      for (var i = 0; i < 9; i++) {
+        sql += ', (?, ?, ?, ?, ?, ?, ?)';
+      }
+      db.run(sql, values);
+
       done();
     });
   });
@@ -147,19 +168,19 @@ describe('API tests', function () {
     });
   });
 
-  describe('GET /rides', function () {
+  describe('GET /rides/1/2', function () {
     it('should return rows', function (done) {
       request(app)
-        .get('/rides')
+        .get('/rides/1/2')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });
   });
 
-  describe('GET /rides/1', function () {
+  describe('GET /ride/1', function () {
     it('should return one row', function (done) {
       request(app)
-        .get('/rides/1')
+        .get('/ride/1')
         .expect('Content-Type', /json/)
         .expect(200, done);
     });

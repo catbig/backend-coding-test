@@ -20,6 +20,7 @@ const logger = createLogger({
     // - Write all logs with level `error` and below to `error.log`
     // - Write all logs with level `info` and below to `info.log`
     //
+    new transports.File({ filename: './log/debug.log', level: 'debug' }),
     new transports.File({ filename: './log/error.log', level: 'error' }),
     new transports.File({ filename: './log/warn.log', level: 'warn' }),
     new transports.File({ filename: './log/info.log', level: 'info' })

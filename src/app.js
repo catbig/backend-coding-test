@@ -127,7 +127,7 @@ module.exports = (db) => {
       values,
       function (err) {
         if (err) {
-          //logger.error(logPrefix + 'insert failed: ' + values);
+          //logger.error(logPrefix + 'insert failed: ' + err);
           return res.send({
             error_code: 'SERVER_ERROR',
             message: 'Unknown error'
@@ -140,7 +140,7 @@ module.exports = (db) => {
           function (err, rows) {
             if (err) {
               //logger.error(
-              //  logPrefix + 'failure on select record by id: ' + this.lastID
+              //  logPrefix + 'failure on select record: ' + err
               //);
               return res.send({
                 error_code: 'SERVER_ERROR',
@@ -156,10 +156,13 @@ module.exports = (db) => {
   });
 
   /**
-   * @api {get} /rides /rides - getRides
+   * @api {get} /rides/:page/:pageSize /rides - getRides
    * @apiDescription Get all ride records
    * @apiGroup Rides
    * @apiName getRides
+   *
+   * @apiParam {Number} page Page numer.
+   * @apiParam {Number} pageSize Page size.
    *
    * @apiSuccess {Number} start_lat Origin latitude.
    * @apiSuccess {Number} start_long Origin longitude.
@@ -169,11 +172,18 @@ module.exports = (db) => {
    * @apiSuccess {String} driver_name Driver's name.
    * @apiSuccess {String} driver_vehicle Driver's vehicle.
    */
-  app.get('/rides', (req, res) => {
+  app.get('/rides/:page/:pageSize', (req, res) => {
     const logPrefix = '[app.getRides] ';
-    db.all('SELECT * FROM Rides', function (err, rows) {
+    let page = req.params.page;
+    let pageSize = req.params.pageSize;
+    let offset = (page - 1) * pageSize;
+    let sql = 'SELECT * FROM Rides LIMIT ? OFFSET ?';
+    let values = [pageSize, offset];
+    //logger.debug(logPrefix + 'page:' + page + ', pageSize: ' + pageSize);
+    //logger.debug(logPrefix + 'sql:' + sql);
+    db.all(sql, values, function (err, rows) {
       if (err) {
-        //logger.error(logPrefix + 'select record failed');
+        //logger.error(logPrefix + 'select record failed: ' + err);
         return res.send({
           error_code: 'SERVER_ERROR',
           message: 'Unknown error'
@@ -193,7 +203,7 @@ module.exports = (db) => {
   });
 
   /**
-   * @api {get} /rides/:id /rides/:id - getRideById
+   * @api {get} /ride/:id /ride - getRideById
    * @apiDescription Get ride detail by rideID
    * @apiGroup Rides
    * @apiName getRideById
@@ -208,14 +218,14 @@ module.exports = (db) => {
    * @apiSuccess {String} driver_name Driver's name.
    * @apiSuccess {String} driver_vehicle Driver's vehicle.
    */
-  app.get('/rides/:id', (req, res) => {
+  app.get('/ride/:id', (req, res) => {
     const logPrefix = '[app.getRideById] ';
     var id = req.params.id;
     db.all(
       `SELECT * FROM Rides WHERE rideID='${req.params.id}'`,
       function (err, rows) {
         if (err) {
-          //logger.error(logPrefix + 'failure on select record by id: ' + id);
+          //logger.error(logPrefix + 'failure on select record by id: ' + err);
           return res.send({
             error_code: 'SERVER_ERROR',
             message: 'Unknown error'

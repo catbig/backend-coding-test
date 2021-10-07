@@ -215,6 +215,18 @@ Run `npm install winston`
 
 2. Create file `log.js` as logger  
 Define the logger as global variable so can be use everywhere  
-refer [log.js](log.js)
+refer [log.js](src/log.js)
 
 3. Implement logging in `app.js`
+
+### 3. Implement Pagination
+1. Modify the `/rides` method to support pagination  
+Modify the API `/rides` to `/rides/:page/:pageSize`  
+refer [app.js](src/app.js)
+
+2. Add initial data in test script  
+refer [api.test.js](tests/api.test.js)
+
+3. Modify test script for post `/rides`  
+refer [api.test.js](tests/api.test.js)
+

@@ -849,8 +849,8 @@ var APIDATA = {api: [
   },
   {
     "type": "get",
-    "url": "/rides/:id",
-    "title": "/rides/:id - getRideById",
+    "url": "/ride/:id",
+    "title": "/ride - getRideById",
     "description": "<p>Get ride detail by rideID</p>",
     "group": "Rides",
     "name": "getRideById",
@@ -928,11 +928,31 @@ var APIDATA = {api: [
   },
   {
     "type": "get",
-    "url": "/rides",
+    "url": "/rides/:page/:pageSize",
     "title": "/rides - getRides",
     "description": "<p>Get all ride records</p>",
     "group": "Rides",
     "name": "getRides",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>Page numer.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>Page size.</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "fields": {
         "Success 200": [
@@ -1120,7 +1140,7 @@ var APIPROJECT = {
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2021-10-06T11:53:28.772Z",
+    "time": "2021-10-07T00:52:11.196Z",
     "url": "https://apidocjs.com",
     "version": "0.29.0"
   }
