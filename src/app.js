@@ -5,6 +5,7 @@ const app = express();
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const logger = require('./logger');
 
 module.exports = (db) => {
   /**
@@ -65,7 +66,7 @@ module.exports = (db) => {
       startLongitude < -180 ||
       startLongitude > 180
     ) {
-      log.warn(logPrefix + 'start latitude invalid: ' + startLatitude);
+      //logger.warn(logPrefix + 'start latitude invalid: ' + startLatitude);
       return res.send({
         error_code: 'VALIDATION_ERROR',
         message:
@@ -79,7 +80,7 @@ module.exports = (db) => {
       endLongitude < -180 ||
       endLongitude > 180
     ) {
-      log.warn(logPrefix + 'end latitude invalid: ' + endLatitude);
+      //logger.warn(logPrefix + 'end latitude invalid: ' + endLatitude);
       return res.send({
         error_code: 'VALIDATION_ERROR',
         message:
@@ -88,7 +89,7 @@ module.exports = (db) => {
     }
 
     if (typeof riderName !== 'string' || riderName.length < 1) {
-      log.warn(logPrefix + 'riderName invalid: ' + riderName);
+      //logger.warn(logPrefix + 'riderName invalid: ' + riderName);
       return res.send({
         error_code: 'VALIDATION_ERROR',
         message: 'Rider name must be a non empty string'
@@ -96,7 +97,7 @@ module.exports = (db) => {
     }
 
     if (typeof driverName !== 'string' || driverName.length < 1) {
-      log.warn(logPrefix + 'driverName invalid: ' + driverName);
+      //logger.warn(logPrefix + 'driverName invalid: ' + driverName);
       return res.send({
         error_code: 'VALIDATION_ERROR',
         message: 'Driver name must be a non empty string'
@@ -104,7 +105,7 @@ module.exports = (db) => {
     }
 
     if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
-      log.warn(logPrefix + 'driverVehicle invalid: ' + driverVehicle);
+      //logger.warn(logPrefix + 'driverVehicle invalid: ' + driverVehicle);
       return res.send({
         error_code: 'VALIDATION_ERROR',
         message: 'Vehicle must be a non empty string'
@@ -126,7 +127,7 @@ module.exports = (db) => {
       values,
       function (err) {
         if (err) {
-          log.error(logPrefix + 'insert failed: ' + values);
+          //logger.error(logPrefix + 'insert failed: ' + values);
           return res.send({
             error_code: 'SERVER_ERROR',
             message: 'Unknown error'
@@ -138,9 +139,9 @@ module.exports = (db) => {
           this.lastID,
           function (err, rows) {
             if (err) {
-              log.error(
-                logPrefix + 'failure on select record by id: ' + this.lastID
-              );
+              //logger.error(
+              //  logPrefix + 'failure on select record by id: ' + this.lastID
+              //);
               return res.send({
                 error_code: 'SERVER_ERROR',
                 message: 'Unknown error'
@@ -172,7 +173,7 @@ module.exports = (db) => {
     const logPrefix = '[app.getRides] ';
     db.all('SELECT * FROM Rides', function (err, rows) {
       if (err) {
-        log.error(logPrefix + 'select record failed');
+        //logger.error(logPrefix + 'select record failed');
         return res.send({
           error_code: 'SERVER_ERROR',
           message: 'Unknown error'
@@ -180,7 +181,7 @@ module.exports = (db) => {
       }
 
       if (rows.length === 0) {
-        log.warn(logPrefix + 'ride not found');
+        //logger.warn(logPrefix + 'ride not found');
         return res.send({
           error_code: 'RIDES_NOT_FOUND_ERROR',
           message: 'Could not find any rides'
@@ -214,7 +215,7 @@ module.exports = (db) => {
       `SELECT * FROM Rides WHERE rideID='${req.params.id}'`,
       function (err, rows) {
         if (err) {
-          log.error(logPrefix + 'failure on select record by id: ' + id);
+          //logger.error(logPrefix + 'failure on select record by id: ' + id);
           return res.send({
             error_code: 'SERVER_ERROR',
             message: 'Unknown error'
@@ -222,7 +223,7 @@ module.exports = (db) => {
         }
 
         if (rows.length === 0) {
-          log.warn(logPrefix + 'record not found for id: ' + id);
+          //logger.warn(logPrefix + 'record not found for id: ' + id);
           return res.send({
             error_code: 'RIDES_NOT_FOUND_ERROR',
             message: 'Could not find any rides'
