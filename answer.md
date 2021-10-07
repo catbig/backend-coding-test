@@ -241,3 +241,14 @@ refer [api.test.js](tests/api.test.js)
 ### 4 Refactoring
 
 1. Convert callback style code to use `async/await`
+
+### 5 Security
+
+1. Converting all parameter to the right data type (number, decimal, etc).  
+Change insert parameter using converted variable instead of request parameter without conversion.
+
+2. Ensure all query using parameterized query  
+   1. Previously we concatenate select query with request parameter id as native query and execute it.
+   2. Convert native query become parameterized queries  
+Parameterized queries do proper substitution of arguments prior to running the SQL query  
+

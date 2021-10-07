@@ -113,13 +113,13 @@ module.exports = (db) => {
     }
 
     var values = [
-      req.body.start_lat,
-      req.body.start_long,
-      req.body.end_lat,
-      req.body.end_long,
-      req.body.rider_name,
-      req.body.driver_name,
-      req.body.driver_vehicle
+      startLatitude,
+      startLongitude,
+      endLatitude,
+      endLongitude,
+      riderName,
+      driverName,
+      driverVehicle
     ];
 
     const result = await db.run(
@@ -222,7 +222,7 @@ module.exports = (db) => {
     const logPrefix = '[app.getRideById] ';
     var id = req.params.id;
     await db.all(
-      `SELECT * FROM Rides WHERE rideID='${req.params.id}'`,
+      `SELECT * FROM Rides WHERE rideID = ?`, id,
       function (err, rows) {
         if (err) {
           //logger.error(logPrefix + 'failure on select record by id: ' + err);
