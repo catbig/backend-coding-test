@@ -249,6 +249,42 @@ Change insert parameter using converted variable instead of request parameter wi
 
 2. Ensure all query using parameterized query  
    1. Previously we concatenate select query with request parameter id as native query and execute it.
-   2. Convert native query become parameterized queries  
-Parameterized queries do proper substitution of arguments prior to running the SQL query  
+   2. Convert native query become parameterized queries.  
+&ensp;Parameterized queries do proper substitution of arguments prior to running the SQL query  
 
+### 6 Load Testing
+
+1. Install `artillery`  
+Run `npm install -g -D artillery@1.5`  
+We use deprecated version due to we use old Node js
+
+2. Setup Artillery configuration file  
+create a file `load-test.yaml`
+```
+config:
+  target: "http://localhost:8010"
+  phases:
+    - duration: 300
+      arrivalRate: 5
+      rampTo: 500
+      name: "A user get rides"
+  ws:
+    # Set WebSocket subprotocols:
+    subprotocols:
+      - json
+
+scenarios:
+  - flow:
+      - get:
+          url: "/rides/1/2"
+```
+
+Explanation:  
+A `phases` defines how many new virtual users will be generated in a time period.  
+For example, in our case we have one phase called "A user get rides" which is self explanatory.
+
+We have also set a `duration` of 300s, an `arrivalRate` of 5 and a `rampTo` value of 500.  
+This means that we want to ramp up the arrival of new users from 5 to 500 over a 5 minutes period ~ 300 seconds.
+
+3. Run load test  
+Run `artillery run load-test.yaml`
