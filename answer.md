@@ -31,7 +31,15 @@ Run `npm start`
 
 ## Task
 
-### 1. Documentation
+1. [Documentation](#1-documentation)
+2. [Implement Tooling](#2-implement-tooling)
+3. [Implement Pagination](#3-implement-pagination)
+4. [Refactoring](#4-refactoring)
+5. [Security](#5-security)
+6. [Load Testing](#6-load-testing)
+
+
+### 1 Documentation
 
 We will use apidoc to build API documentation in web format.  
 https://www.npmjs.com/package/apidoc
@@ -66,7 +74,7 @@ Add below code in `src/app.js`
 
 6. Restart the server
 
-### 2. Implement Tooling
+### 2 Implement Tooling
 
 Connect `eslint` and `nyc` with `npm test`
 
@@ -219,7 +227,7 @@ refer [log.js](src/log.js)
 
 3. Implement logging in `app.js`
 
-### 3. Implement Pagination
+### 3 Implement Pagination
 1. Modify the `/rides` method to support pagination  
 Modify the API `/rides` to `/rides/:page/:pageSize`  
 refer [app.js](src/app.js)
@@ -230,3 +238,6 @@ refer [api.test.js](tests/api.test.js)
 3. Modify test script for post `/rides`  
 refer [api.test.js](tests/api.test.js)
 
+### 4 Refactoring
+
+1. Convert callback style code to use `async/await`

@@ -50,7 +50,7 @@ module.exports = (db) => {
    * @apiSuccess {String} driver_name Driver's name.
    * @apiSuccess {String} driver_vehicle Driver's vehicle.
    */
-  app.post('/rides', jsonParser, (req, res) => {
+  app.post('/rides', jsonParser, async (req, res) => {
     const startLatitude = Number(req.body.start_lat);
     const startLongitude = Number(req.body.start_long);
     const endLatitude = Number(req.body.end_lat);
@@ -122,7 +122,7 @@ module.exports = (db) => {
       req.body.driver_vehicle
     ];
 
-    const result = db.run(
+    const result = await db.run(
       'INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)',
       values,
       function (err) {
@@ -172,7 +172,7 @@ module.exports = (db) => {
    * @apiSuccess {String} driver_name Driver's name.
    * @apiSuccess {String} driver_vehicle Driver's vehicle.
    */
-  app.get('/rides/:page/:pageSize', (req, res) => {
+  app.get('/rides/:page/:pageSize', async (req, res) => {
     const logPrefix = '[app.getRides] ';
     let page = req.params.page;
     let pageSize = req.params.pageSize;
@@ -181,7 +181,7 @@ module.exports = (db) => {
     let values = [pageSize, offset];
     //logger.debug(logPrefix + 'page:' + page + ', pageSize: ' + pageSize);
     //logger.debug(logPrefix + 'sql:' + sql);
-    db.all(sql, values, function (err, rows) {
+    await db.all(sql, values, function (err, rows) {
       if (err) {
         //logger.error(logPrefix + 'select record failed: ' + err);
         return res.send({
@@ -218,10 +218,10 @@ module.exports = (db) => {
    * @apiSuccess {String} driver_name Driver's name.
    * @apiSuccess {String} driver_vehicle Driver's vehicle.
    */
-  app.get('/ride/:id', (req, res) => {
+  app.get('/ride/:id', async (req, res) => {
     const logPrefix = '[app.getRideById] ';
     var id = req.params.id;
-    db.all(
+    await db.all(
       `SELECT * FROM Rides WHERE rideID='${req.params.id}'`,
       function (err, rows) {
         if (err) {
