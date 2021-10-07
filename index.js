@@ -12,8 +12,6 @@ const db = new sqlite3.Database(':memory:');
 
 const buildSchemas = require('./src/schemas');
 
-require('./src/log.js').initLogger();
-
 db.serialize(() => {
   buildSchemas(db);
 

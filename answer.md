@@ -146,7 +146,8 @@ Add below code in `package.json`
 &ensp;refer [package.json](package.json)
 
 8. Linter fixing  
-Run `eslint **/**js  --fix`
+Run `eslint **/**js  --fix`  
+> 341 problems (341 errors, 0 warnings) has been fixed
 
 9. Rerun test  
 Run `npm test`
@@ -166,6 +167,32 @@ Add `nyc` in `test` script inside `package.json` file.
 
 3. Rerun test  
 Run `npm test`
+
+4. Initial coverage
+```
+------------|---------|----------|---------|---------|---------------------------
+File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+------------|---------|----------|---------|---------|---------------------------
+All files   |   23.18 |        0 |   27.27 |   22.05 |
+ app.js     |   18.46 |        0 |      20 |   17.18 | 14,53-150,172-190,211-232
+ schemas.js |     100 |      100 |     100 |     100 |
+------------|---------|----------|---------|---------|---------------------------
+```
+
+5. Create new testing script  
+refer [api.test.js](tests/api.test.js)
+
+6. Latest coverage
+```
+------------|---------|----------|---------|---------|-------------------------
+File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+------------|---------|----------|---------|---------|-------------------------
+All files   |   90.47 |    83.33 |     100 |   90.32 |
+ app.js     |   89.09 |    83.33 |     100 |   88.88 | 131,145,177,185,219,227
+ logger.js  |     100 |      100 |     100 |     100 |
+ schemas.js |     100 |      100 |     100 |     100 |
+------------|---------|----------|---------|---------|-------------------------
+```
 
 #### c. Pre-push Test
 It will ensure that your npm test (or other specified scripts) passes before you can push your changes.  
